@@ -28,11 +28,142 @@ describe("AMM", function () {
     };
   }
 
-  describe("init", function () {
-    it("init", async function () {
-      const { amm } = await loadFixture(deployContract);
+  describe("provide", function () {
+    it("Token should be moved", async function () {
+      const { amm, token0, token1, owner } = await loadFixture(deployContract);
 
-      expect(await amm.totalShare()).to.eql(BigNumber.from(0));
+      const ownerBalance0Before = await token0.balanceOf(owner.address);
+      const ownerBalance1Before = await token1.balanceOf(owner.address);
+
+      const ammBalance0Before = await token0.balanceOf(amm.address);
+      const ammBalance1Before = await token1.balanceOf(amm.address);
+
+      // 今回使用する2つのトークンはETHと同じ単位を使用するとしているので、
+      // 100 ether (= 100 * 10^18) 分をprovideするという意味です。
+      const amountProvide0 = ethers.utils.parseEther("100");
+      const amountProvide1 = ethers.utils.parseEther("200");
+
+      await token0.approve(amm.address, amountProvide0);
+      await token1.approve(amm.address, amountProvide1);
+      await amm.provide(
+        token0.address,
+        amountProvide0,
+        token1.address,
+        amountProvide1
+      );
+
+      expect(await token0.balanceOf(owner.address)).to.eql(
+        ownerBalance0Before.sub(amountProvide0)
+      );
+      expect(await token1.balanceOf(owner.address)).to.eql(
+        ownerBalance1Before.sub(amountProvide1)
+      );
+
+      expect(await token0.balanceOf(amm.address)).to.eql(
+        ammBalance0Before.add(amountProvide0)
+      );
+      expect(await token1.balanceOf(amm.address)).to.eql(
+        ammBalance1Before.add(amountProvide1)
+      );
+    });
+  });
+
+  async function deployContractWithLiquidity() {
+    const { amm, token0, token1, owner, otherAccount } = await loadFixture(
+      deployContract
+    );
+
+    const amountOwnerProvided0 = ethers.utils.parseEther("100");
+    const amountOwnerProvided1 = ethers.utils.parseEther("200");
+
+    await token0.approve(amm.address, amountOwnerProvided0);
+    await token1.approve(amm.address, amountOwnerProvided1);
+    await amm.provide(
+      token0.address,
+      amountOwnerProvided0,
+      token1.address,
+      amountOwnerProvided1
+    );
+
+    const amountOtherProvided0 = ethers.utils.parseEther("10");
+    const amountOtherProvided1 = ethers.utils.parseEther("20");
+
+    await token0
+      .connect(otherAccount)
+      .approve(amm.address, amountOtherProvided0);
+    await token1
+      .connect(otherAccount)
+      .approve(amm.address, amountOtherProvided1);
+    await amm
+      .connect(otherAccount)
+      .provide(
+        token0.address,
+        amountOtherProvided0,
+        token1.address,
+        amountOtherProvided1
+      );
+
+    return {
+      amm,
+      token0,
+      amountOwnerProvided0,
+      amountOtherProvided0,
+      token1,
+      amountOwnerProvided1,
+      amountOtherProvided1,
+      owner,
+      otherAccount,
+    };
+  }
+
+  // deployContractWithLiquidity 後の初期値のチェックをします。
+  describe("Deploy with liquidity", function () {
+    it("Should set the right number of amm details", async function () {
+      const {
+        amm,
+        token0,
+        amountOwnerProvided0,
+        amountOtherProvided0,
+        token1,
+        amountOwnerProvided1,
+        amountOtherProvided1,
+        owner,
+        otherAccount,
+      } = await loadFixture(deployContractWithLiquidity);
+
+      const precision = await amm.PRECISION();
+      const BN100 = BigNumber.from("100"); // ownerのシェア: 最初の流動性提供者なので100
+      const BN10 = BigNumber.from("10"); // otherAccountのシェア: ownerに比べて10分の1だけ提供しているので10
+
+      expect(await amm.totalShare()).to.equal(BN100.add(BN10).mul(precision));
+      expect(await amm.share(owner.address)).to.equal(BN100.mul(precision));
+      expect(await amm.share(otherAccount.address)).to.equal(
+        BN10.mul(precision)
+      );
+      expect(await amm.totalAmount(token0.address)).to.equal(
+        amountOwnerProvided0.add(amountOtherProvided0)
+      );
+      expect(await amm.totalAmount(token1.address)).to.equal(
+        amountOwnerProvided1.add(amountOtherProvided1)
+      );
+    });
+  });
+
+  describe("getEquivalentToken", function () {
+    it("Should get the right number of equivalent token", async function () {
+      const { amm, token0, token1 } = await loadFixture(
+        deployContractWithLiquidity
+      );
+
+      const totalToken0 = await amm.totalAmount(token0.address);
+      const totalToken1 = await amm.totalAmount(token1.address);
+      const amountProvide0 = ethers.utils.parseEther("10");
+      // totalToken0 : totalToken1 = amountProvide0 : equivalentToken1
+      const equivalentToken1 = amountProvide0.mul(totalToken1).div(totalToken0);
+
+      expect(
+        await amm.getEquivalentToken(token0.address, amountProvide0)
+      ).to.equal(equivalentToken1);
     });
   });
 });
