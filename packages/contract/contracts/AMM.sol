@@ -113,4 +113,39 @@ contract AMM {
 
         return newshare;
     }
+
+    // ユーザのシェアから引き出せるトークンの量を算出します。
+    function getWithdrawEstimate(IERC20 token, uint256 _share)
+        public
+        view
+        activePool
+        validToken(token)
+        returns (uint256)
+    {
+        require(_share <= totalShare, "Share should be less than totalShare");
+        return (_share * totalAmount[token]) / totalShare;
+    }
+
+    function withdraw(uint256 _share)
+        external
+        activePool
+        returns (uint256, uint256)
+    {
+        require(_share > 0, "share cannot be zero!");
+        require(_share <= share[msg.sender], "Insufficient share");
+
+        uint256 amountTokenX = getWithdrawEstimate(_tokenX, _share);
+        uint256 amountTokenY = getWithdrawEstimate(_tokenY, _share);
+
+        share[msg.sender] -= _share;
+        totalShare -= _share;
+
+        totalAmount[_tokenX] -= amountTokenX;
+        totalAmount[_tokenY] -= amountTokenY;
+
+        _tokenX.transfer(msg.sender, amountTokenX);
+        _tokenY.transfer(msg.sender, amountTokenY);
+
+        return (amountTokenX, amountTokenY);
+    }
 }
