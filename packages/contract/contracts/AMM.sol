@@ -149,7 +149,7 @@ contract AMM {
         return (amountTokenX, amountTokenY);
     }
 
-    // swap元のトークン量からswap先のトークン量を算出
+    // swap元のトークン量からswap先のトークン量を算出(シチュエーション１のx'からy'を算出する)
     function getSwapEstimateOut(IERC20 inToken, uint256 amountIn)
         public
         view
@@ -168,7 +168,7 @@ contract AMM {
         return amountOut;
     }
 
-    // swap先のトークン量からswap元のトークン量を算出
+    // swap先のトークン量からswap元のトークン量を算出(シチュエーション２のy'からx'を算出する)
     function getSwapEstimateIn(IERC20 outToken, uint256 amountOut)
         public
         view
