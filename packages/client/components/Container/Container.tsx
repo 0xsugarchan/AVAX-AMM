@@ -2,6 +2,10 @@ import { useState } from "react";
 
 import { useContract } from "../../hooks/useContract";
 import Details from "../Details/Details";
+import Faucet from "../SelectTab/Faucet";
+import Provide from "../SelectTab/Provide";
+import Swap from "../SelectTab/Swap";
+import Withdraw from "../SelectTab/Withdraw";
 import styles from "./Container.module.css";
 
 type Props = {
@@ -68,10 +72,41 @@ export default function Container({ currentAccount }: Props) {
           </div>
         </div>
 
-        {activeTab === "Swap" && <div>swap</div>}
-        {activeTab === "Provide" && <div>provide</div>}
-        {activeTab === "Withdraw" && <div>withdraw</div>}
-        {activeTab === "Faucet" && <div>faucet</div>}
+        {activeTab === "Swap" && (
+          <Swap
+            token0={token0}
+            token1={token1}
+            amm={amm}
+            currentAccount={currentAccount}
+            updateDetails={updateDetails}
+          />
+        )}
+        {activeTab === "Provide" && (
+          <Provide
+            token0={token0}
+            token1={token1}
+            amm={amm}
+            currentAccount={currentAccount}
+            updateDetails={updateDetails}
+          />
+        )}
+        {activeTab === "Withdraw" && (
+          <Withdraw
+            token0={token0}
+            token1={token1}
+            amm={amm}
+            currentAccount={currentAccount}
+            updateDetails={updateDetails}
+          />
+        )}
+        {activeTab === "Faucet" && (
+          <Faucet
+            token0={token0}
+            token1={token1}
+            currentAccount={currentAccount}
+            updateDetails={updateDetails}
+          />
+        )}
       </div>
       <Details
         token0={token0}
