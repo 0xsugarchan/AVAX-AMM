@@ -1,11 +1,10 @@
 .details {
-  padding: 15px 10px 15px 0px;
+  padding: 15px 0px 15px 10px;
   width: 370px;
   height: fit-content;
-  position: absolute;
-  right: 0px;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
 }
 
 .detailsBody {
