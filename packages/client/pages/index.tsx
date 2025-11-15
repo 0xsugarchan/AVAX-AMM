@@ -12,7 +12,7 @@ const Home: NextPage = () => {
     <div className={styles.pageBody}>
       <div className={styles.navBar}>
         <div className={styles.rightHeader}>
-          <Image alt="Picture of icon" src="/bird.png" width={40} height={30} />
+          <Image alt="Picture of icon" src="/icon.png" width={40} height={30} />
           <div className={styles.appName}> Miniswap </div>
         </div>
         {currentAccount === undefined ? (
