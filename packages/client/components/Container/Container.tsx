@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { useContract } from "../../hooks/useContract";
 import Details from "../Details/Details";
+import Introduction from "../Introduction/Introduction";
 import Faucet from "../SelectTab/Faucet";
 import Provide from "../SelectTab/Provide";
 import Swap from "../SelectTab/Swap";
@@ -28,6 +29,7 @@ export default function Container({ currentAccount }: Props) {
 
   return (
     <div className={styles.mainBody}>
+      <Introduction />
       <div className={styles.centerContent}>
         <div className={styles.selectTab}>
           <div

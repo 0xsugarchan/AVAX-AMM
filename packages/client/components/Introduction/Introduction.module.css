@@ -1,0 +1,67 @@
+.introduction {
+  width: 370px;
+  padding: 15px 10px 15px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.content {
+  background-color: var(--card-bg);
+  width: 90%;
+  padding: 20px;
+  border-radius: 19px;
+  border: 1px solid var(--border);
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 20px 0;
+}
+
+.text {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+.text p {
+  margin: 0 0 15px 0;
+}
+
+.text p:last-child {
+  margin-bottom: 0;
+}
+
+.builtWith {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.builtWith strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.link {
+  color: var(--primary);
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.link:hover {
+  color: var(--hover);
+  text-decoration: underline;
+}
+
+@media only screen and (max-width: 1179px) {
+  .introduction {
+    width: 100%;
+    padding: 15px 20px;
+    max-width: 460px;
+    margin: 0 auto;
+  }
+}
+

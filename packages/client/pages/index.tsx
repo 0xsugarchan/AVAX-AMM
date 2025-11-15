@@ -6,13 +6,13 @@ import { useWallet } from "../hooks/useWallet";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
-  const { currentAccount, connectWallet } = useWallet();
+  const { currentAccount, connectWallet, disconnectWallet } = useWallet();
 
   return (
     <div className={styles.pageBody}>
       <div className={styles.navBar}>
         <div className={styles.rightHeader}>
-          <Image alt="Picture of icon" src="/bird.png" width={40} height={30} />
+          <Image alt="Picture of icon" src="/icon.png" width={40} height={30} />
           <div className={styles.appName}> Miniswap </div>
         </div>
         {currentAccount === undefined ? (
@@ -24,6 +24,9 @@ const Home: NextPage = () => {
           <div className={styles.connected}>
             {" "}
             {"Connected to " + currentAccount}{" "}
+            <span className={styles.disconnectBtn} onClick={disconnectWallet}>
+              Disconnect
+            </span>
           </div>
         )}
       </div>
