@@ -6,7 +6,7 @@ import { useWallet } from "../hooks/useWallet";
 import styles from "../styles/Home.module.css";
 
 const Home: NextPage = () => {
-  const { currentAccount, connectWallet } = useWallet();
+  const { currentAccount, connectWallet, disconnectWallet } = useWallet();
 
   return (
     <div className={styles.pageBody}>
@@ -24,6 +24,9 @@ const Home: NextPage = () => {
           <div className={styles.connected}>
             {" "}
             {"Connected to " + currentAccount}{" "}
+            <span className={styles.disconnectBtn} onClick={disconnectWallet}>
+              Disconnect
+            </span>
           </div>
         )}
       </div>

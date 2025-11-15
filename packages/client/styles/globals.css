@@ -1,9 +1,24 @@
+:root {
+  --primary: #042940;      /* Blue Whale - deep blue for primary elements */
+  --secondary: #07344E;    /* Tarawera - slightly lighter blue for secondary elements */
+  --background: #F8FCFA;   /* Panache - very light background */
+  --card-bg: #FFFFFF;      /* White for cards */
+  --text-primary: #042940; /* Blue Whale - for primary text */
+  --text-secondary: #07344E; /* Tarawera - for secondary text, darker for better readability */
+  --hover: #07344E;        /* Tarawera - for hover states */
+  --border: #F4F4F8;       /* Athens Gray - for borders */
+  --success: #48BB78;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -13,6 +28,11 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 
 @media (prefers-color-scheme: dark) {

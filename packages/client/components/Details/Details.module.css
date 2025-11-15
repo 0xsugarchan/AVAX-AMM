@@ -9,10 +9,11 @@
 }
 
 .detailsBody {
-  background-color: #0e0e10;
+  background-color: var(--card-bg);
   width: 90%;
   padding: 10px;
   border-radius: 19px;
+  border: 1px solid var(--border);
 }
 
 .detailsHeader {
@@ -22,7 +23,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: var(--text-primary);
   margin-bottom: 15px;
 }
 
@@ -36,7 +37,7 @@
 .detailsAttribute {
   font: 18px;
   font-weight: 600;
-  color: white;
+  color: var(--text-primary);
   display: flex;
   justify-content: flex-start;
   width: 50%;
@@ -45,7 +46,7 @@
 .detailsValue {
   font: 18px;
   font-weight: 900;
-  color: white;
+  color: var(--text-secondary);
   display: flex;
   justify-content: center;
   width: 50%;

@@ -8,13 +8,14 @@
   border-radius: 19px;
   position: relative;
   overflow: hidden;
-  border: 2px solid grey;
+  border: 2px solid var(--border);
+  background-color: var(--card-bg);
 }
 
 .boxBody {
   display: flex;
   justify-content: space-between;
-  color: white;
+  color: var(--text-primary);
 }
 
 .leftHeader {
@@ -25,8 +26,8 @@
   width: 70%;
   height: 30px;
   font-size: 22px;
-  background-color: #0e0e10;
-  color: white;
+  background-color: var(--card-bg);
+  color: var(--text-primary);
   border: 0px;
 }
 .textField:focus-visible {
